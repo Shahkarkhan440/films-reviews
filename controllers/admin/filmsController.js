@@ -1,10 +1,12 @@
 
+"use strict"
+
 const { Validator } = require('node-input-validator');
 const { responseHandler, deleteAllFiles } = require("../../utilities/helper");
 const { Film } = require("../../models/database")
 const { isEmpty } = require("lodash");
 const ObjectId = require('mongoose').Types.ObjectId;
-const path = require('path');
+
 
 
 module.exports.addFilm = async (req, res) => {
