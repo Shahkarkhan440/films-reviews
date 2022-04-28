@@ -34,4 +34,11 @@ const httpStatuses = Object.freeze({
 });
 
 
-module.exports = { userAccStatuses, filmStatuses, allowedRatings, httpStatuses };
+const imageTypes = Object.freeze([
+    'image/png',
+    'image/jpeg',
+    'image/jpg'
+]);
+
+
+module.exports = { userAccStatuses, filmStatuses, allowedRatings, httpStatuses, imageTypes };

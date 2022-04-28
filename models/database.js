@@ -19,6 +19,8 @@ db.once("open", function () {
 });
 
 
+
+
 //users schema
 var userSchema = mongoose.Schema(
     {
@@ -34,13 +36,27 @@ var userSchema = mongoose.Schema(
 module.exports.User = mongoose.model("users", userSchema);
 
 
+
+//Admin schema to use admin account for films crud.
+var adminSchema = mongoose.Schema(
+    {
+        name: { type: String, required: true },
+        email: { type: String, required: true },
+        password: { type: String, required: true },
+        status: { type: String, default: "active", enum: Object.values(userAccStatuses) },
+    },
+    { timestamps: true }
+);
+module.exports.Admin = mongoose.model("admin", adminSchema);
+
+
 //sub schema for film reviews
 let reviewsSchema = mongoose.Schema({
     reviewerId: { type: String, },
     rating: { type: String, enum: Object.values(allowedRatings) },
 })
 
-//films schema
+//films schema. the structure is a bit changed based on the scenario in film-reviews management system
 let FilmsSchema = mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },

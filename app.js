@@ -8,11 +8,9 @@ const ip = require("ip");
 const path = require("path");
 require("dotenv").config();
 const authRoutes = require("./routes/auth")
+const { seeder } = require("./seeder/index")
 
-
-
-// const seeder = require("./seeder").seeder;
-
+const filmRoutes = require("./routes/admin/films")
 
 var app = express();
 app.use(express.json());
@@ -33,6 +31,10 @@ app.use(
     authRoutes
 )
 
+app.use("/admin",
+    filmRoutes
+)
+
 
 
 // catch 404 and forward to error handler
@@ -49,7 +51,7 @@ const port = process.env.PORT || 3001;
 const host = process.env.NODE_ENV === 'dev' ? '0.0.0.0' : ip.address();
 // const host = ip.address();
 
-// seeder()
+seeder()
 
 
 app.listen(port, host, () => {
