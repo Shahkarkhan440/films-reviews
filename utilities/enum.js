@@ -9,6 +9,16 @@ const filmStatuses = Object.freeze({
     disabled: "in-active",
 })
 
+const allowedRatings = Object.freeze({
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+})
+
+
+
 const httpStatuses = Object.freeze({
     ok: 200,
     badRequest: 400,
@@ -24,4 +34,4 @@ const httpStatuses = Object.freeze({
 });
 
 
-module.exports = { userAccStatuses, filmStatuses, httpStatuses };
+module.exports = { userAccStatuses, filmStatuses, allowedRatings, httpStatuses };
