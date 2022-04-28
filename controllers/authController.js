@@ -1,4 +1,6 @@
 
+"use strict"
+
 const { Validator } = require('node-input-validator');
 const { responseHandler, passwordStrengthChecker, } = require("../utilities/helper");
 const { User } = require("../models/database")
