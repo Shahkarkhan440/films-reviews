@@ -1,4 +1,5 @@
 const { httpStatuses } = require("../utilities/enum")
+const fs = require("fs")
 
 const isSuccess = (status) => {
     let response = { success: false };
@@ -58,6 +59,7 @@ module.exports.responseHandler = (request, response, statusCode, body, loggerBod
         logger.errorLogger.info(loggerBody)
         return response.status(statusCode).send(body);
     } else {
+
         return response.status(statusCode).send(body);
     }
 };
@@ -66,4 +68,13 @@ module.exports.responseHandler = (request, response, statusCode, body, loggerBod
 module.exports.passwordStrengthChecker = (password) => {
     let re = /^(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
     return re.test(password);
+}
+
+
+module.exports.deleteAllFiles = (files) => {
+    console.log(files)
+    if (typeof files === 'string' && files) files = [files];
+    if (Array.isArray(files) && files.length > 0) {
+        files.forEach(path => fs.existsSync(path) && fs.unlinkSync(path))
+    }
 }
