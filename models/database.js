@@ -42,7 +42,7 @@ let FilmsSchema = mongoose.Schema({
     rating: { type: Number, required: true },
     review: { type: String, required: true },
     country: { type: String, required: true },
-    genres: { type: String, required: true },
+    genres: { type: Array, default: [] },
     photos: { type: String, required: true },
     reviwerId: { type: String, required: true },
     status: { type: String, default: "active", enum: Object.values(filmStatuses) },
