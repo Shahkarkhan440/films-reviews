@@ -30,21 +30,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 
-// connect to MongoDB
-mongoose.connect(process.env.DB_CONNECTION_STRING + process.env.DB_NAME, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-
-});
-
-var db = mongoose.connection;
-
-// handle mongo error
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function () {
-    console.log("Database Connected");
-});
-
 
 // auth routes
 
