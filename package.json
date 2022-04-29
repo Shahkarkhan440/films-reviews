@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Shahkarkhan440/films-reviews#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.18.0",
@@ -31,6 +32,12 @@
     "multer": "^1.4.4",
     "node-input-validator": "^4.5.0",
     "nodemon": "^2.0.15",
+    "postman-to-openapi": "^2.2.1",
     "winston": "^3.7.2"
+  },
+  "devDependencies": {
+    "@types/chai-http": "^4.2.0",
+    "chai": "^4.3.6",
+    "mocha": "^9.2.2"
   }
 }
