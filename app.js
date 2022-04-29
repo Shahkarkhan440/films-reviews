@@ -11,6 +11,8 @@ const authRoutes = require("./routes/auth")
 const { seeder } = require("./seeder/index")
 
 const filmRoutes = require("./routes/admin/films")
+const commentsRoutes = require("./routes/user/comments")
+const reviewRoutes = require("./routes/user/reviews")
 
 var app = express();
 app.use(express.json());
@@ -33,6 +35,12 @@ app.use(
 
 app.use("/admin",
     filmRoutes
+)
+
+
+app.use("/user",
+    commentsRoutes,
+    reviewRoutes
 )
 
 

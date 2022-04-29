@@ -10,14 +10,14 @@ const multer = require('multer');
 
 const upload = multer({
 
-    dest: function (req, file, cb) {
+    dest: function (req, file, cb) {   //save here the files
         cb(null, 'public/uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+        cb(null, Date.now() + path.extname(file.originalname))
     },
     fileFilter: (req, file, cb) => {
-        if (!imageTypes.includes(file.mimetype)) {
+        if (!imageTypes.includes(file.mimetype)) {  //checking for file type allowed only
             return cb(new Error("invalid image type uploaded"))
         }
         cb(null, true)
@@ -45,38 +45,35 @@ const uploadMiddleware = (req, res, next) => {
 
 router.post(
     "/add-film",
-    // verifyAdmin,
-    uploadMiddleware,
+    verifyAdmin,
+    uploadMiddleware,  //use this middleware for uploading photo
     filmsController.addFilm
 );
 
 router.get(
     "/all-films",
-    // verifyAdmin,
+    verifyAdmin,
     filmsController.getAllFilms
 );
 
 router.post(
     "/view-film",
-    // verifyAdmin,
+    verifyAdmin,
     filmsController.viewFilm
 );
 
 
 router.put(
     "/update-film",
-    // verifyAdmin,
-    uploadMiddleware,
+    verifyAdmin,
+    uploadMiddleware,  //use this middleware for uploading photo
     filmsController.updateFilm
 );
 
 router.delete(
     "/delete-film",
-    // verifyAdmin,
+    verifyAdmin,
     filmsController.deleteFilm
 );
-
-
-
 
 module.exports = router;

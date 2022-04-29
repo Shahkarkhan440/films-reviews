@@ -20,7 +20,6 @@ db.once("open", function () {
 
 
 
-
 //users schema
 var userSchema = mongoose.Schema(
     {
@@ -52,8 +51,10 @@ module.exports.Admin = mongoose.model("admin", adminSchema);
 
 //sub schema for film reviews
 let reviewsSchema = mongoose.Schema({
-    reviewerId: { type: String, },
-    rating: { type: String, enum: Object.values(allowedRatings) },
+    reviewerId: { type: String, required: true },
+    rating: {
+        type: Number, required: true
+    },
 })
 
 //films schema. the structure is a bit changed based on the scenario in film-reviews management system
@@ -61,7 +62,7 @@ let FilmsSchema = mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     releaseDate: { type: Date, required: true },
-    totalRatings: { type: Number, default: 0 },
+    avgRatings: { type: Number, default: 0 },
     country: { type: String, required: true },
     genres: { type: Array, default: [] },
     photo: { type: String, required: true },
@@ -71,7 +72,7 @@ let FilmsSchema = mongoose.Schema({
     { timestamps: true });
 module.exports.Film = mongoose.model("films", FilmsSchema)
 
-//comments schema
+//comments schema. This schema can be more optimize if we dont follow the docx file completely
 let commentsSchema = mongoose.Schema({
     filmId: { type: String, required: true },
     userId: { type: String, required: true },
