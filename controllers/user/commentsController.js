@@ -4,6 +4,8 @@
 const { Validator } = require('node-input-validator');
 const { responseHandler, } = require("../../utilities/helper");
 const { Film, Comment } = require("../../models/database")
+const { usersLogger, errorLogger } = require("../../utilities/logger")
+
 
 module.exports.addComment = async (req, res) => {
     try {
@@ -37,9 +39,11 @@ module.exports.addComment = async (req, res) => {
             comment: data.comment,
         })
         let saveObj = await commentObj.save()
+        usersLogger.info(`Status: 200 - "Comment Added" - UserID: ${req.user.id} - filmId: ${data.filmId} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 200, { message: "Comment Added successfully", saveObj });
     } catch (e) {
-        console.log(e)
+        errorLogger.error(`Status: 500 - "Internal Server Error" - UserID: ${req.user.id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         return responseHandler(req, res, 500, {
             message: "Internal Server Error", error: e?.message ?? e
         });

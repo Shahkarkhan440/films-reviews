@@ -7,6 +7,9 @@ const { User } = require("../models/database")
 const bcrypt = require("bcryptjs");
 const { userAccStatuses } = require("../utilities/enum")
 const jwt = require("../utilities/jwtToken");
+const { authLogger, errorLogger } = require("../utilities/logger")
+
+
 
 module.exports.signup = async (req, res) => {
     try {
@@ -57,8 +60,12 @@ module.exports.signup = async (req, res) => {
             isReviewer: data.isReviewer,
         });
         await user.save();
+        authLogger.info(`Status: 200 - "Account created" - ${req.body.email} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 200, { message: "Account has been created successfully" });
     } catch (e) {
+        errorLogger.error(`Status: 500 - "Internal Server Error" - ${req.body.email} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 500, {
             message: "Internal Server Error", error: e?.message ?? e
         });
@@ -96,6 +103,9 @@ module.exports.login = async (req, res) => {
         }
 
         if (validUser.status === userAccStatuses.blocked) {
+
+            authLogger.info(`Status: 403 - "Block user Accessing" - ${req.body.email} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
             return responseHandler(req, res, 403, {
                 message: "user account is blocked", validationError: {
                     email: {
@@ -109,7 +119,9 @@ module.exports.login = async (req, res) => {
         let passIsValid = await bcrypt.compare(data.password, validUser.password)
 
         if (!passIsValid) {
+
             return responseHandler(req, res, 400, {
+
                 message: "incorrect password entered", validationError: {
                     password: {
                         "message": "incorrect password entered",
@@ -118,6 +130,7 @@ module.exports.login = async (req, res) => {
                 }
             });
         } else {
+            authLogger.info(`Status: 200 - "Account Login" - ${req.body.email} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return responseHandler(req, res, 200, {
                 message: "login successfully",
                 token: jwt.generateUserToken(validUser._id).accessToken,
@@ -129,6 +142,7 @@ module.exports.login = async (req, res) => {
             });
         }
     } catch (e) {
+        errorLogger.error(`Status: 500 - "Internal Server Error" - ${req.body.email} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         return responseHandler(req, res, 500, { message: "Internal Server Error", error: e?.message ?? e });
     }
 }
