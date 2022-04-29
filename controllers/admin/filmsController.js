@@ -6,8 +6,7 @@ const { responseHandler, deleteAllFiles } = require("../../utilities/helper");
 const { Film } = require("../../models/database")
 const { isEmpty } = require("lodash");
 const ObjectId = require('mongoose').Types.ObjectId;
-
-
+const { authLogger, adminLogger, errorLogger } = require("../../utilities/logger")
 
 module.exports.addFilm = async (req, res) => {
     try {
@@ -74,9 +73,11 @@ module.exports.addFilm = async (req, res) => {
             }
         );
         let saveObj = await filmObj.save();
+        adminLogger.info(`Status: 200 - "Film Added" - UserID: ${req.user.id} - filmId: ${saveObj._id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 200, { message: "Film Added successfully", saveObj });
     } catch (e) {
-        console.error(e)
+        errorLogger.error(`Status: 500 - "Internal Server Error" - UserID: ${req.user.id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         return responseHandler(req, res, 500, {
             message: "Internal Server Error", error: e?.message ?? e
         });
@@ -92,6 +93,8 @@ module.exports.getAllFilms = async (req, res) => {
         }
         return responseHandler(req, res, 200, { message: "All films are fetched successfully", films });
     } catch (e) {
+        errorLogger.error(`Status: 500 - "Internal Server Error" - UserID: ${req.user.id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 500, {
             message: "Internal Server Error", error: e?.message ?? e
         });
@@ -124,6 +127,8 @@ module.exports.viewFilm = async (req, res) => {
         }
         return responseHandler(req, res, 200, { message: "Film details fetched successfully", film });
     } catch (e) {
+        errorLogger.error(`Status: 500 - "Internal Server Error" - UserID: ${req.user.id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 500, {
             message: "Internal Server Error", error: e?.message ?? e
         });
@@ -191,9 +196,12 @@ module.exports.updateFilm = async (req, res) => {
         if (!film) {
             return responseHandler(req, res, 409, { message: "Invalid Film Id" }, null, () => deleteAllFiles(file?.path));
         }
+        adminLogger.info(`Status: 200 - "Film Updated" - UserID: ${req.user.id} - filmId: ${film._id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 200, { message: "Film Updated successfully", film });
     } catch (e) {
-        console.error(e)
+        errorLogger.error(`Status: 500 - "Internal Server Error" - UserID: ${req.user.id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 500, {
             message: "Internal Server Error", error: e?.message ?? e
         });
@@ -222,6 +230,8 @@ module.exports.deleteFilm = async (req, res) => {
 
         const film = await Film.deleteOne({ _id: data.filmId })
         if (film.deletedCount > 0) {
+            adminLogger.info(`Status: 200 - "Film deleted" - UserID: ${req.user.id} - filmId: ${film._id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
             return responseHandler(req, res, 200, { message: "Film deleted successfully", film });
         } else {
             return responseHandler(req, res, 404, {
@@ -229,6 +239,8 @@ module.exports.deleteFilm = async (req, res) => {
             });
         }
     } catch (e) {
+        errorLogger.error(`Status: 500 - "Internal Server Error" - UserID: ${req.user.id} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
         return responseHandler(req, res, 500, {
             message: "Internal Server Error", error: e?.message ?? e
         });
