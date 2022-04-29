@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
     "test": "mocha tests/index.js"
   },
   "repository": {
@@ -33,6 +33,7 @@
     "multer": "^1.4.4",
     "node-input-validator": "^4.5.0",
     "nodemon": "^2.0.15",
+    "pm2": "^5.2.0",
     "postman-to-openapi": "^2.2.1",
     "winston": "^3.7.2"
   },
