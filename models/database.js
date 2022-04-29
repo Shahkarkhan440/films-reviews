@@ -9,6 +9,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
     console.log("DB Connected")
 });
+mongoose.set('bufferCommands', false);
 
 
 //users schema
