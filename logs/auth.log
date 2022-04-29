@@ -1,1 +1,2 @@
 info: Apr-29-2022 05:25:46 :  	Status: 200 - "Account Login" - shahkarkhan02@gmail.com - /auth/login - POST - 127.0.0.1
+info: Apr-29-2022 11:58:38 :  	Status: 200 - "Account created" - reviewer1@gmail.com - /auth/signup - POST - ::ffff:127.0.0.1
