@@ -3,21 +3,12 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const { userAccStatuses, filmStatuses, allowedRatings } = require("../utilities/enum")
 
-
-// connect to MongoDB
-mongoose.connect(process.env.DB_CONNECTION_STRING + process.env.DB_NAME, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = process.env.DB_CONNECTION_STRING
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+    console.log("DB Connected")
 });
-
-var db = mongoose.connection;
-
-// handle mongo error
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function () {
-    console.log("Database Connected");
-});
-
 
 
 //users schema
