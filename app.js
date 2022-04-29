@@ -55,16 +55,16 @@ app.use(function (req, res, next) {
 });
 
 // Server Running and Port listening
-const port = process.env.PORT || 3001;
-const host = process.env.NODE_ENV === 'dev' ? '0.0.0.0' : ip.address();
+// const port = process.env.PORT || 3001;
+// const host = process.env.NODE_ENV === 'dev' ? '0.0.0.0' : ip.address();
 // const host = ip.address();
 
 seeder()
 
 
-app.listen(port, host, () => {
-    console.log(`Server is runing on http://${host}:${port} - ${ip.address()}`);
-});
+// app.listen(port, host, () => {
+//     console.log(`Server is runing on http://${host}:${port} - ${ip.address()}`);
+// });
 
 
 module.exports = app;
