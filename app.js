@@ -13,6 +13,8 @@ const { seeder } = require("./seeder/index")
 const filmRoutes = require("./routes/admin/films")
 const commentsRoutes = require("./routes/user/comments")
 const reviewRoutes = require("./routes/user/reviews")
+const mongoose = require("mongoose");
+
 
 var app = express();
 app.use(express.json());
@@ -24,6 +26,24 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(mongoSanitize());
 app.use(express.static(path.join(__dirname, "public")));
+
+
+
+
+// connect to MongoDB
+mongoose.connect(process.env.DB_CONNECTION_STRING + process.env.DB_NAME, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+
+});
+
+var db = mongoose.connection;
+
+// handle mongo error
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+    console.log("Database Connected");
+});
 
 
 // auth routes
