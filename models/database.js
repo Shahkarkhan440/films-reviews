@@ -8,6 +8,7 @@ const { userAccStatuses, filmStatuses, allowedRatings } = require("../utilities/
 mongoose.connect(process.env.DB_CONNECTION_STRING + process.env.DB_NAME, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
 });
 
 var db = mongoose.connection;
